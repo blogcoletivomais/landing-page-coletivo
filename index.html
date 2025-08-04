@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Coletivo+: Seu engajamento ajuda a comunidade a prosperar. Juntos, celebramos nossas conquistas com sorteios gratuitos para todos os membros." />
+  <title>Coletivo+ | Crescimento Compartilhado</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
+  
+  <style>
+    /* * ==============================================
+     * Design System e Configurações Globais
+     * ==============================================
+    */
+    :root {
+      --red-principal: #E50914;
+      --red-hover: #F6121D;
+      --fundo-claro: #F7F8FC;
+      --fundo-card: #FFFFFF;
+      --texto-principal: #1A202C;
+      --texto-secundario: #4A5568;
+      --borda-clara: #E2E8F0;
+      --sombra-suave: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.04);
+      --sombra-media: 0 10px 15px -3px rgba(0, 0, 0, 0.07), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Poppins', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background-color: var(--fundo-claro);
+      color: var(--texto-principal);
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* * ==============================================
+     * Animações e Utilitários
+     * ==============================================
+    */
+    .fade-in-section {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94), transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+    .fade-in-section.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .page {
+        display: none;
+    }
+    .page.active {
+        display: block;
+    }
+    
+    /* * ==============================================
+     * Componentes da UI
+     * ==============================================
+    */
+
+    /* Cabeçalho (Header) */
+    .main-header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      padding: 1rem 1.5rem;
+      background-color: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--borda-clara);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .main-header .logo {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: var(--red-principal);
+      text-decoration: none;
+    }
+    .main-header nav a {
+        margin-left: 1.5rem;
+        font-weight: 600;
+        color: var(--texto-secundario);
+        text-decoration: none;
+        transition: color 0.3s ease;
+        padding-bottom: 5px;
+        border-bottom: 2px solid transparent;
+    }
+    .main-header nav a:hover {
+        color: var(--texto-principal);
+    }
+    .main-header nav a.active {
+        color: var(--red-principal);
+        border-bottom-color: var(--red-principal);
+    }
+
+    /* Hero Section */
+    .hero-section {
+        padding: 5rem 1.5rem;
+        text-align: center;
+        background: var(--fundo-card);
+    }
+    .hero-section h1 {
+      font-size: clamp(2.2rem, 5vw, 3.5rem);
+      font-weight: 800;
+      color: var(--texto-principal);
+      line-height: 1.2;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    .hero-section .highlight {
+        color: var(--red-principal);
+    }
+    .hero-section p {
+      font-size: clamp(1.1rem, 2.5vw, 1.25rem);
+      color: var(--texto-secundario);
+      max-width: 700px;
+      margin: 1.5rem auto 2.5rem;
+    }
+    .btn-red {
+      background: var(--red-principal);
+      color: #FFFFFF;
+      font-weight: 600;
+      font-size: 1.1rem;
+      padding: 1rem 2.8rem;
+      border-radius: 50px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      box-shadow: var(--sombra-media);
+      display: inline-block;
+    }
+    .btn-red:hover, .btn-red:focus {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 20px -5px rgba(229, 9, 20, 0.4);
+    }
+
+    /* Vídeo de Apresentação */
+    .presentation-video {
+        max-width: 900px;
+        margin: -4rem auto 0;
+        position: relative;
+        z-index: 10;
+        border-radius: 16px;
+        overflow: hidden;
+        box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25);
+    }
+    .presentation-video iframe {
+        display: block;
+        width: 100%;
+        aspect-ratio: 16 / 9;
+        border: 0;
+    }
+
+    /* Main Content */
+    main {
+      max-width: 1200px;
+      margin: 5rem auto;
+      padding: 0 1.5rem;
+    }
+
+    .section-title {
+      color: var(--texto-principal);
+      margin-bottom: 3rem;
+      text-align: center;
+      font-size: clamp(2rem, 5vw, 2.5rem);
+      font-weight: 700;
+    }
+    
+    /* Galeria YouTube */
+    .youtube-gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 2rem;
+    }
+    .youtube-card {
+      background: var(--fundo-card);
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: var(--sombra-suave);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      border: 1px solid var(--borda-clara);
+    }
+    .youtube-card:hover {
+      transform: translateY(-8px);
+      box-shadow: var(--sombra-media);
+    }
+    .youtube-card iframe {
+      width: 100%;
+      height: 180px;
+      border: 0;
+      display: block;
+    }
+
+    /* Barra de Progresso */
+    .progress-section {
+        background: var(--fundo-card);
+        padding: 3rem 2rem;
+        border-radius: 16px;
+        box-shadow: var(--sombra-media);
+        text-align: center;
+    }
+    .progress-section h3 { font-size: 1.5rem; margin-bottom: 0.5rem; }
+    .progress-section p { color: var(--texto-secundario); margin-bottom: 2rem; }
+    .progress-bar-container { background-color: var(--borda-clara); border-radius: 50px; height: 20px; width: 100%; overflow: hidden; }
+    .progress-bar { background: linear-gradient(90deg, var(--red-hover), var(--red-principal)); height: 100%; border-radius: 50px; width: 75%; transition: width 1s ease-in-out; color: white; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; font-weight: 600; }
+    .progress-info { display: flex; justify-content: space-between; margin-top: 0.5rem; font-weight: 600; color: var(--texto-secundario); }
+
+    /* Seção "Fluxograma" */
+    .fluxograma { text-align: center; }
+    .flux-steps { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 1rem; }
+    .flux-item { background: var(--fundo-card); padding: 0.8rem 1.5rem; border: 1px solid var(--borda-clara); border-radius: 50px; font-weight: 600; box-shadow: var(--sombra-suave); }
+    .arrow { color: var(--red-principal); font-size: 2rem; font-weight: bold; }
+
+    /* Seção "FAQ" */
+    .faq { max-width: 800px; margin: 0 auto; }
+    .faq-category {
+        margin-bottom: 2.5rem;
+    }
+    .faq-category h3 {
+        font-size: 1.5rem;
+        color: var(--texto-principal);
+        margin-bottom: 1.5rem;
+        padding-bottom: 0.5rem;
+        border-bottom: 2px solid var(--borda-clara);
+    }
+    .faq-item { background: var(--fundo-card); border: 1px solid var(--borda-clara); margin-bottom: 1rem; border-radius: 12px; overflow: hidden; }
+    .faq-question { padding: 1.25rem 1.5rem; cursor: pointer; font-weight: 600; display: flex; justify-content: space-between; align-items: center; }
+    .faq-question .icon { transition: transform 0.4s ease; color: var(--red-principal); }
+    .faq-item.active .faq-question .icon { transform: rotate(45deg); }
+    .faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.5s ease-in-out; }
+    .faq-answer p { padding: 0 1.5rem 1.25rem; border-top: 1px solid var(--borda-clara); padding-top: 1.25rem; color: var(--texto-secundario); }
+    .faq-item.active .faq-answer { max-height: 200px; }
+
+    /* Página de Regras */
+    .rules-page-content {
+        background: var(--fundo-card);
+        padding: 2rem 2.5rem;
+        border-radius: 16px;
+        box-shadow: var(--sombra-media);
+    }
+    .rules-page-content h3 {
+        font-size: 1.25rem;
+        margin-top: 2rem;
+        margin-bottom: 0.5rem;
+        color: var(--texto-principal);
+        border-bottom: 2px solid var(--borda-clara);
+        padding-bottom: 0.5rem;
+    }
+    .rules-page-content p, .rules-page-content li {
+        color: var(--texto-secundario);
+    }
+    .rules-page-content ul {
+        list-style-position: inside;
+        padding-left: 0;
+    }
+    .disclaimer {
+        background-color: var(--fundo-claro);
+        border-left: 4px solid var(--red-principal);
+        padding: 1rem;
+        margin-top: 1.5rem;
+        font-style: italic;
+    }
+
+    /* Rodapé */
+    footer { background-color: var(--texto-principal); color: var(--fundo-claro); text-align: center; padding: 3rem 1.5rem; margin-top: 5rem; }
+    footer a { color: #fff; text-decoration: underline; font-weight: 600; margin: 0 0.75rem; }
+    footer a:hover { color: var(--red-principal); }
+    footer .footer-links { margin-bottom: 1rem; }
+
+    /* Responsividade */
+    @media (max-width: 768px) {
+      .flux-steps { flex-direction: column; }
+      .arrow { transform: rotate(90deg); margin: 0.5rem 0; }
+      .main-header { flex-direction: column; gap: 1rem; padding: 1rem; }
+      .main-header nav a { margin: 0 0.75rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="main-header" id="main-header">
+    <a href="#home" class="logo nav-link" data-page="page-home">Coletivo+</a>
+    <nav>
+        <a href="#home" class="nav-link active" data-page="page-home">Apresentação</a>
+        <a href="#blog" class="nav-link" data-page="page-blog">Blog</a>
+        <a href="#rules" class="nav-link" data-page="page-rules">Regras</a>
+    </nav>
+  </header>
+  
+  <!-- PÁGINA 1: APRESENTAÇÃO -->
+  <div id="page-home" class="page active">
+    <section class="hero-section">
+        <h1>Aqui, seu engajamento ajuda a comunidade a <span class="highlight">prosperar</span>.</h1>
+        <p>Juntos, celebramos nossas conquistas com sorteios gratuitos para todos os membros. Quanto mais a gente cresce, mais prêmios são distribuídos.</p>
+        <a href="[SEU LINK DO CANAL WHATSAPP AQUI]" target="_blank" rel="noopener" class="btn-red">Entrar no Canal Oficial</a>
+    </section>
+
+    <section class="presentation-video fade-in-section">
+        <iframe src="https://www.youtube.com/embed/ScMzIvxBSi4" title="Vídeo de Apresentação do Coletivo+" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
+    </section>
+
+    <main>
+        <section class="fade-in-section" style="margin-top: 5rem;">
+            <h2 class="section-title">Nosso Ecossistema</h2>
+            <div class="fluxograma">
+              <div class="flux-steps">
+                <div class="flux-item">TikTok / Instagram</div>
+                <div class="arrow">→</div>
+                <div class="flux-item">Comunidade</div>
+                <div class="arrow">→</div>
+                <div class="flux-item">YouTube</div>
+                <div class="arrow">→</div>
+                <div class="flux-item">Sorteios</div>
+                <div class="arrow">→</div>
+                <div class="flux-item">Crescimento Coletivo</div>
+              </div>
+            </div>
+        </section>
+    </main>
+  </div>
+
+  <!-- PÁGINA 2: BLOG (ANTIGA COMUNIDADE) -->
+  <div id="page-blog" class="page">
+    <main>
+        <section class="fade-in-section">
+            <h2 class="section-title">Meta da Comunidade</h2>
+            <div class="progress-section">
+                <h3>Próxima Celebração: Sorteio de R$ 500 no PIX</h3>
+                <p>Meta: Atingir 10.000 inscritos no YouTube</p>
+                <div class="progress-bar-container">
+                    <div class="progress-bar" style="width: 75%;">75%</div>
+                </div>
+                <div class="progress-info">
+                    <span>Início (5k)</span>
+                    <span>Meta (10k)</span>
+                </div>
+            </div>
+        </section>
+
+        <section class="fade-in-section" style="margin-top: 5rem;">
+            <h2 class="section-title">Vídeos Recentes</h2>
+            <div class="youtube-gallery">
+              <div class="youtube-card"><iframe src="https://www.youtube.com/embed/ScMzIvxBSi4" title="Vídeo do YouTube 1" allowfullscreen loading="lazy"></iframe></div>
+              <div class="youtube-card"><iframe src="https://www.youtube.com/embed/tgbNymZ7vqY" title="Vídeo do YouTube 2" allowfullscreen loading="lazy"></iframe></div>
+              <div class="youtube-card"><iframe src="https://www.youtube.com/embed/ysz5S6PUM-U" title="Vídeo do YouTube 3" allowfullscreen loading="lazy"></iframe></div>
+            </div>
+        </section>
+  
+        <section class="fade-in-section" style="margin-top: 5rem;">
+          <h2 class="section-title">Perguntas Frequentes</h2>
+          <div class="faq">
+            <!-- Categoria 1: Sobre o Projeto -->
+            <div class="faq-category">
+                <h3>Sobre o Projeto</h3>
+                <div class="faq-item">
+                    <div class="faq-question" role="button">Por que o Coletivo+ existe? Qual o objetivo?</div>
+                    <div class="faq-answer"><p>O objetivo é criar uma comunidade onde o crescimento é benéfico para todos. Em vez do modelo tradicional onde apenas o criador lucra, aqui nós compartilhamos o sucesso. O engajamento da comunidade impulsiona o canal, e parte da receita gerada volta para a própria comunidade em forma de prêmios.</p></div>
+                </div>
+            </div>
+
+            <!-- Categoria 2: Sorteios e Prêmios -->
+            <div class="faq-category">
+                <h3>Sorteios e Prêmios</h3>
+                <div class="faq-item">
+                    <div class="faq-question" role="button">Preciso pagar algo para participar?</div>
+                    <div class="faq-answer"><p>Absolutamente nada. A participação em todos os sorteios é e sempre será 100% gratuita.</p></div>
+                </div>
+            </div>
+          </div>
+        </section>
+    </main>
+  </div>
+
+  <!-- PÁGINA 3: REGRAS -->
+  <div id="page-rules" class="page">
+    <main>
+        <section class="fade-in-section">
+            <h2 class="section-title">Regras Oficiais dos Sorteios</h2>
+            <div class="rules-page-content">
+                <p>Para garantir a transparência e a conformidade com as diretrizes da comunidade do YouTube, todos os sorteios realizados pelo Coletivo+ seguem as regras abaixo.</p>
+                <h3>1. Promotor</h3>
+                <p>O promotor de todos os sorteios é o canal "Coletivo+", único responsável pela organização e execução.</p>
+                <h3>2. Elegibilidade</h3>
+                <ul>
+                    <li>Ser residente no Brasil.</li>
+                    <li>Ter 18 anos de idade ou mais.</li>
+                </ul>
+                <h3>3. Como Participar</h3>
+                <p>A participação em qualquer sorteio é gratuita e será realizada através do preenchimento de um formulário oficial, cujo link será divulgado na descrição do vídeo de anúncio.</p>
+                <h3>4. Isenção de Responsabilidade do YouTube</h3>
+                <div class="disclaimer">
+                    <p>Este sorteio não é, de forma alguma, patrocinado, endossado, administrado ou associado ao YouTube. Ao participar, você compreende que está fornecendo suas informações ao Coletivo+ e não ao YouTube, isentando o YouTube de toda e qualquer responsabilidade relacionada a este sorteio.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+  </div>
+
+
+  <footer>
+    <div class="footer-links">
+        <a href="#home" class="nav-link" data-page="page-home">Apresentação</a> |
+        <a href="#blog" class="nav-link" data-page="page-blog">Blog</a> |
+        <a href="#rules" class="nav-link" data-page="page-rules">Regras</a>
+    </div>
+    <p>© 2025 Coletivo+ — Todos os direitos reservados</p>
+  </footer>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // DECLARAÇÕES PRIMÁRIAS
+      const navLinks = document.querySelectorAll('.nav-link');
+      const pages = document.querySelectorAll('.page');
+      const faqItems = document.querySelectorAll('.faq-item');
+      let observer;
+
+      // FUNÇÕES
+      function observeSections() {
+          if(observer) observer.disconnect();
+          const sections = document.querySelectorAll('.page.active .fade-in-section');
+          observer = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+              if (entry.isIntersecting) {
+                entry.target.classList.add('is-visible');
+                observer.unobserve(entry.target);
+              }
+            });
+          }, { threshold: 0.1 });
+
+          sections.forEach(section => {
+            observer.observe(section);
+          });
+      }
+
+      const showPage = (pageId) => {
+        pages.forEach(page => {
+          page.classList.remove('active');
+        });
+        const pageToShow = document.getElementById(pageId);
+        if (pageToShow) {
+            pageToShow.classList.add('active');
+        }
+        
+        navLinks.forEach(link => {
+            link.classList.remove('active');
+            if (link.dataset.page === pageId) {
+                link.classList.add('active');
+            }
+        });
+
+        window.scrollTo(0, 0);
+        observeSections(); 
+      };
+
+      // EVENT LISTENERS
+      navLinks.forEach(link => {
+        link.addEventListener('click', (e) => {
+          e.preventDefault();
+          const pageId = link.dataset.page;
+          if (pageId) {
+            showPage(pageId);
+            window.location.hash = link.getAttribute('href');
+          }
+        });
+      });
+
+      faqItems.forEach(item => {
+        const question = item.querySelector('.faq-question');
+        if (question) { // Adiciona verificação para segurança
+            question.addEventListener('click', () => {
+              const wasActive = item.classList.contains('active');
+              faqItems.forEach(i => {
+                  if (i !== item) i.classList.remove('active');
+              });
+              if (!wasActive) item.classList.add('active');
+              else item.classList.remove('active');
+            });
+        }
+      });
+
+      // INICIALIZAÇÃO
+      const currentHash = window.location.hash.substring(1);
+      let pageIdFromHash = 'page-home'; // Padrão
+      if (currentHash === 'blog') { // Atualizado de 'community' para 'blog'
+          pageIdFromHash = 'page-blog';
+      } else if (currentHash === 'rules') {
+          pageIdFromHash = 'page-rules';
+      }
+      showPage(pageIdFromHash);
+    });
+  </script>
+</body>
+</html>
